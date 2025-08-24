@@ -3,8 +3,6 @@ import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { mainnet, goerli } from 'wagmi/chains';
-import { InjectedConnector } from 'wagmi/connectors/injected';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 
 // Configure chains
 const { chains, provider } = configureChains(
@@ -12,29 +10,16 @@ const { chains, provider } = configureChains(
   [publicProvider()]
 );
 
-// Get default wallets for RainbowKit
-const defaultWallets = getDefaultWallets('My Wallet App', chains);
+// Default wallets (desktop + mobile)
+const { connectors } = getDefaultWallets({
+  appName: 'My Wallet App',
+  chains,
+});
 
-// Make sure connectors is iterable
-const defaultConnectors = defaultWallets.connectors({ chains });
-
-// Combine desktop + mobile
-export const connectors = [
-  ...defaultConnectors, // RainbowKit default wallets (desktop + mobile)
-  new WalletConnectConnector({
-    chains,
-    options: {
-      qrcode: true,
-      mobileLinks: ['metamask', 'trust', 'rainbow'], // mobile deep-link
-    },
-  }),
-  new InjectedConnector({ chains }), // fallback for desktop
-];
-
-// Create client
+// Wagmi client
 export const wagmiClient = createClient({
   autoConnect: true,
-  connectors,
+  connectors, // must be defaultConnectors for MetaMask mobile to work
   provider,
 });
 
