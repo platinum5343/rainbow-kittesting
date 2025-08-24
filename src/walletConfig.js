@@ -1,8 +1,8 @@
 // walletConfig.js
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
 import { mainnet, goerli } from 'wagmi/chains';
+import { publicProvider } from 'wagmi/providers/public';
 
 // Configure chains
 const { chains, provider } = configureChains(
@@ -10,7 +10,7 @@ const { chains, provider } = configureChains(
   [publicProvider()]
 );
 
-// Default wallets (desktop + mobile)
+// Default wallets (desktop + mobile handled automatically)
 const { connectors } = getDefaultWallets({
   appName: 'My Wallet App',
   chains,
@@ -19,7 +19,7 @@ const { connectors } = getDefaultWallets({
 // Wagmi client
 export const wagmiClient = createClient({
   autoConnect: true,
-  connectors, // must be defaultConnectors for MetaMask mobile to work
+  connectors,
   provider,
 });
 
