@@ -13,9 +13,9 @@ const { chains, provider } = configureChains(
 );
 
 // Default wallets (v1)
-const defaultWallets = getDefaultWallets('My Wallet App', chains); // returns object { connectors: fn }
+const defaultWallets = getDefaultWallets('My Wallet App', chains);
 
-// Get connectors array
+// Get connectors array correctly by calling the function
 const defaultConnectors = defaultWallets.connectors({ chains });
 
 // Combine with manual connectors
@@ -28,7 +28,7 @@ export const connectors = [
       mobileLinks: ['metamask', 'rainbow', 'trust'],
     },
   }),
-  ...defaultConnectors, // now iterable
+  ...defaultConnectors, // now it works
 ];
 
 // Wagmi client
