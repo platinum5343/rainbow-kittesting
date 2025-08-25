@@ -1,18 +1,21 @@
-// src/walletConfig.js
+
+
+// walletConfig.js
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient } from 'wagmi';
 import { mainnet, goerli } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
-// Configure chains
+// Configure supported chains
 const { chains, provider } = configureChains(
   [mainnet, goerli],
   [publicProvider()]
 );
 
-// Default wallets (desktop + mobile handled automatically)
+// Wallet connectors (handles MetaMask, WalletConnect, Coinbase, Rainbow, etc.)
 const { connectors } = getDefaultWallets({
   appName: 'My Wallet App',
+  projectId: '957441542f6f32d1b3244dc8f1f88292', // from https://cloud.walletconnect.com
   chains,
 });
 
